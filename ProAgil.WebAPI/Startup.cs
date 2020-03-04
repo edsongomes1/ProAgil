@@ -35,6 +35,7 @@ namespace ProAgil.WebAPI
             ));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddCors(); //habilitar requisicao cruzada
             
             
                 
@@ -55,6 +56,7 @@ namespace ProAgil.WebAPI
 
 
            // app.UseHttpsRedirection();
+           app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseMvc();
           
 
