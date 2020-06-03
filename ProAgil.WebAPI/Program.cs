@@ -14,6 +14,7 @@ namespace ProAgil.WebAPI
     {
         public static void Main(string[] args)
         {
+            //aqui que inicia o projeto web. asp.net core
             CreateWebHostBuilder(args).Build().Run();
         }
 

@@ -11,8 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore.Sqlite;
-using ProAgil.WebAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using ProAgil.Repository;
 
 namespace ProAgil.WebAPI
 {
@@ -28,12 +28,13 @@ namespace ProAgil.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //aqui temos um conceito de middle, uma camada entre o cliente e o banco de dados.
             
-            services.AddDbContext<DataContext>(x => x.UseSqlite(
-                Configuration.GetConnectionString("DefaultConnection")
+            services.AddDbContext<ProAgilContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")
 
             ));
-
+            //
+            services.AddScoped<IProAgilRepository, ProAgilRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors(); //habilitar requisicao cruzada
             
@@ -57,6 +58,8 @@ namespace ProAgil.WebAPI
 
            // app.UseHttpsRedirection();
            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+           app.UseStaticFiles();
+           //aqui só possivel, porque na configuração service eu adicionei o serviço (services.AddMvc)
             app.UseMvc();
           
 
