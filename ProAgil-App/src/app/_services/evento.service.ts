@@ -3,9 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Evento } from '../_models/Evento';
 
-//quando passamos esse decorate que tem esse provideIn root diz que pode ser injetado em qualquer lugar, por isso que conseguimos usar no componente de evento
-//caso não tivivesse isso teriamos que ir no componente que utilizamos dentro do objeto @Component e adicionamos a tag providers: 
-//ou caso nao queira nenhum dos dois, temos que polocar no app.modules.ts na parte de provide
+// quando passamos esse decorate que tem esse provideIn root
+// diz que pode ser injetado em qualquer lugar, por isso que conseguimos usar no componente de evento
+// caso não tivivesse isso teriamos que ir no componente que utilizamos
+// dentro do objeto @Component e adicionamos a tag providers:
+// ou caso nao queira nenhum dos dois, temos que polocar no app.modules.ts na parte de provide
 @Injectable({
   providedIn: 'root'
 })
@@ -16,20 +18,31 @@ export class EventoService {
 
     getAllEvento(): Observable<Evento[]> {
 
-      //aqui retorna um observable.
+      // aqui retorna um observable.
         return this.http.get<Evento[]>(this.baseURL);
     }
 
     getEventoByTema(tema: string): Observable<Evento[]> {
 
-      //aqui retorna um observable.
-      //utilizando template string
+      // aqui retorna um observable.
+      // utilizando template string
       return this.http.get<Evento[]>(`${this.baseURL}/getByTema/${tema}`);
     }
 
     getEventoById(id: number): Observable<Evento> {
 
-      //aqui retorna um observable.
+      // aqui retorna um observable.
         return this.http.get<Evento>(`${this.baseURL}/${id}`);
+    }
+
+    postEvento(evento: Evento) {
+      return this.http.post (this.baseURL, evento);
+    }
+    putEvento(evento: Evento) {
+      return this.http.put (`${this.baseURL}/${evento.id}`, evento);
+    }
+
+    deleteEvento(id: number) {
+      return this.http.delete(`${this.baseURL}/${id}`);
     }
 }
